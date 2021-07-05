@@ -26,81 +26,80 @@ exports.signup = (req, res) => {
   // const isValid = tempData.findIndex((e) => e.email === email);
 
   client
-  .query(`SELECT * FROM users where email = '${email}';`)
-  .then((data) => {
-    isValid = data.rows;
+    .query(`SELECT * FROM users where email = '${email}';`)
+    .then((data) => {
+      isValid = data.rows;
 
-    if (isValid.length != 0) {
-      res.status(400).json({
-        error: "User already exists",
-      });
-    }else{
-  
-    bcrypt.hash(password, 10, (err, hash) => {
-      if (err) {
+      if (isValid.length != 0) {
         res.status(400).json({
-          error: "Internal server error",
+          error: "User already exists",
+        });
+      } else {
+        bcrypt.hash(password, 10, (err, hash) => {
+          if (err) {
+            res.status(400).json({
+              error: "Internal server error",
+            });
+          }
+          const user = {
+            name,
+            email,
+            password: hash,
+          };
+
+          // tempData.push(user);
+          client
+            .query(
+              `INSERT INTO users (name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}');`
+            )
+            .then((data) => {
+              const token = jwt.sign(
+                {
+                  email: email,
+                },
+                process.env.secret_key
+              );
+              res.status(200).json({
+                message: "User added successfully",
+                token: token,
+              });
+            })
+            .catch((err) => {
+              res.status(500).json({
+                error: "Database error occurred",
+              });
+            });
         });
       }
-      const user = {
-        name,
-        email,
-        password: hash,
-      };
-
-      // tempData.push(user);
-      client
-      .query(`INSERT INTO users (name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}');`
-      )
-      .then((data) => {
-        const token = jwt.sign(
-          {
-            email: email,
-          },
-          process.env.secret_key
-        );
-        res.status(200).json({
-          message: "User added successfully",
-          token: token,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: "Database error occurred",
-        });
-      
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Database error occurred",
+      });
     });
-  });
-  }
-  })
-  .catch((err) => {
-    res.status(500).json({
-      error: "Database error occurred",
-    });
-  });
 };
-  
+
 exports.signin = (req, res) => {
   const { email, password } = req.body;
 
   // const isValid = tempData.findIndex((e) => e.email === email);
 
   client
-  .query(`SELECT * FROM users where email = '${email}';`)
-  .then((data) => {
-    userData = data.rows;
+    .query(`SELECT * FROM users where email = '${email}';`)
+    .then((data) => {
+      userData = data.rows;
 
-    if (userData.length == 0) {
-      res.status(400).json({
-        error: "User does not exist, sign up instead",
-      });
-    }else{
+      if (userData.length == 0) {
+        res.status(400).json({
+          error: "User does not exist, sign up instead",
+        });
+      } else {
         bcrypt.compare(password, userData[0].password, (err, result) => {
-          if(err){
+          if (err) {
             res.status(500).json({
               error: "Server error",
             });
-          }else if(result == true){
+          } else if (result == true) {
             const token = jwt.sign(
               {
                 email: email,
@@ -111,14 +110,13 @@ exports.signin = (req, res) => {
               message: "User signed in successfully",
               token: token,
             });
-          }else{
+          } else {
             res.status(400).json({
               error: "Enter correct password",
             });
           }
         });
       }
-      
     })
     .catch((err) => {
       res.status(500).json({
