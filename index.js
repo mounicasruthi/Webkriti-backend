@@ -4,6 +4,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const client = require("./configs/db");
+const cloudinary = require("./configs/cloudinary");
 
 
 const app = express();

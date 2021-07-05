@@ -1,10 +1,27 @@
 const client = require("../configs/db");
+const cloudinary = require("../configs/cloudinary");
+/*const Formidable = require("Formidable");*/
+
+/*const form = new Formidable();*/
+
+/*
+form.parse(req, (err, fields, files) => {
+    cloudinary.uploader.upload(files.upload.path,result=>{
+        console.log(result);
+    });
+    });
+*/
+
+
 
 //create route
 exports.createPost = (req, res ) => {
-    const { content} = req.body;
+    const { content, image} = req.body;
     //add code to check if content/image is empty (40:00) 
-    client.query(`INSERT INTO posts (email, content) VALUES ('${req.email}', '${content}');`)
+    client.query(`INSERT INTO posts (email, content, image) VALUES ('${req.email}', '${content}', '${image}');`)
+    cloudinary.uploader.upload(files.upload.path,result=>{
+        console.log(result);
+    })
     .then(data => {
         res.status(200).json({ 
             message: "Post created successfully"
@@ -26,6 +43,7 @@ exports.getPosts = (req, res) =>{
          return{
              postId: post.postid,
              content: post.content,
+             image: post.image,
          };
      });
      console.log(newdata);
@@ -50,6 +68,7 @@ exports.getAllPosts = (req, res) => {
          return{
              postId: post.postid,
              content: post.content,
+             image: post.image,
          };
      });
      console.log(newdata);
@@ -69,8 +88,8 @@ exports.getAllPosts = (req, res) => {
 //update route
 exports.updatePosts = (req, res)=>{
     const postId= (req.postId);
-    const { content} = req.body;
-    client.query(`UPDATE posts set content = '${content}' WHERE postId='${postId}';`)
+    const { content, image } = req.body;
+    client.query(`UPDATE posts set content = '${content}', image = '${image}' WHERE postId='${postId}';`)
     .then(data => {
        res.status(200).json({ 
            message: "Posts Updated Successfully",
@@ -86,16 +105,16 @@ exports.updatePosts = (req, res)=>{
 //delete route
    exports.deletePosts = (req, res)=>{
     const postId= (req.postId);
-    const { content} = req.body;
+    const { content } = req.body;
     client.query(`DELETE FROM  posts WHERE postId='${postId}';`)
     .then(data => {
        res.status(200).json({ 
            message: "Posts Deleted Successfully",
        });
-   })
+    })
    .catch(err => {
        res.status(500).json({
-           message: "Databse error" 
+           message: "Databse error"
        });
    });
    };
