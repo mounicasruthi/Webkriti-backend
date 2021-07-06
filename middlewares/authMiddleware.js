@@ -3,7 +3,7 @@ const client = require("../configs/db");
 
 exports.verifyToken = (req, res, next) => {
   const token = req.headers.authorization;
-  jwt.verify(token, process.env.secret_key, (err, decoded) => {
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       res.status(500).json({ error: "Server error" });
     }
