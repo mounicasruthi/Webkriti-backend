@@ -104,7 +104,7 @@ exports.signin = (req, res) => {
               {
                 email: email,
               },
-              process.env.secret_key
+              process.env.SECRET_KEY
             );
             res.status(200).json({
               message: "User signed in successfully",
