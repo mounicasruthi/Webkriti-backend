@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   createPost,
+  uploadImage,
   getPosts,
   updatePosts,
   deletePosts,
@@ -14,6 +15,8 @@ router.param("postId", postIdParam);
 
 router.post("/create", verifyToken, createPost);
 
+router.post("/uploadimage", uploadImage); //add verifyToken
+
 router.get("/getposts", verifyToken, getPosts);
 
 router.put("/update/:postId", verifyToken, updatePosts);
@@ -25,6 +28,7 @@ router.get("/getallposts", getAllPosts);
 module.exports = router;
 
 // localhost:8000/posts/create
+//localhost:8000/posts/uploadimage
 // localhost:8000/posts/update/:postId
 // localhost:8000/posts/delete/:postId
 // localhost:8000/posts/getuserposts

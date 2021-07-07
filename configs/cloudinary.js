@@ -1,9 +1,10 @@
-const { Formidable } = require("formidable");
 const cloudinary = require("cloudinary").v2;
 
 // const cloudinary = new Cloudinary(
 //     process.env.CLOUDINARY_URL
 // );
+
+// required dotenv in video but skipped here
 
 cloudinary.config({
   //  cloud_name: 'dhzozm2my',
@@ -16,5 +17,22 @@ cloudinary.config({
   secure: true,
 });
 
+// exports.image = (file, folder) => {
+//   return new Promise((resolve) => {
+//     cloudinary.uploader.upload(
+//       file,
+//       (result) => {
+//         resolve({
+//           url: result.url,
+//           id: result.public_id,
+//         });
+//       },
+//       {
+//         resource_type: "auto",
+//         folder: folder,
+//       }
+//     );
+//   });
+// };
+
 module.exports = cloudinary;
-module.exports = Formidable;
