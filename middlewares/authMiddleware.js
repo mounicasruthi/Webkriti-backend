@@ -8,20 +8,23 @@ exports.verifyToken = (req, res, next) => {
       res.status(500).json({ error: "Server error" });
     }
     const userEmail = decoded.email;
+    // const userName = decoded.name;
 
     client
       .query(`SELECT * FROM users WHERE email = '${userEmail}';`)
-      .then((data) => {
+      .then(data => {
         if (data.rows.length === 0) {
           res.status(400).json({
             message: "Verification failed",
           });
         } else {
+          console.log(data.rows);
           req.email = userEmail;
+          req.name = data.rows[0].name;
           next();
         }
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(500).json({
           message: "Database error",
         });

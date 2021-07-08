@@ -18,7 +18,7 @@ exports.createPost = async (req, res) => {
       } else {
         client
           .query(
-            `INSERT INTO posts (email,content,image) VALUES ('${req.email}','${fields.caption}');`
+            `INSERT INTO posts (email,name,content) VALUES ('${req.email}','${req.name}','${fields.caption}');`
           )
           .then(data => {
             res.status(200).json({
@@ -38,12 +38,10 @@ exports.createPost = async (req, res) => {
         console.log(err, result);
         if (fields.caption == undefined) {
           fields.caption = "";
-        } else {
-          fields.caption = fields.caption;
         }
         client
           .query(
-            `INSERT INTO posts (email,content,image) VALUES ('${req.email}','${fields.caption}', '${result.secure_url}');`
+            `INSERT INTO posts (email,name,content,image) VALUES ('${req.email}','${req.name}','${fields.caption}', '${result.secure_url}');`
           )
           .then(data => {
             res.status(200).json({
@@ -64,7 +62,9 @@ exports.createPost = async (req, res) => {
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
   client
-    .query(`SELECT * FROM posts WHERE email='${req.email}';`)
+    .query(
+      `SELECT * FROM posts WHERE email='${req.email}', name= '${req.name}';`
+    )
     .then(data => {
       const postData = data.rows;
       const newdata = postData.map(post => {
