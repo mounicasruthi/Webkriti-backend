@@ -24,7 +24,7 @@ router.delete("/delete/:postId", verifyToken, deletePosts);
 
 router.get("/getallposts", getAllPosts);
 
-// router.post("/likes/:postId", verifyToken, likesCount);
+// router.post("/likes", verifyToken, likesCount);
 
 module.exports = router;
 
