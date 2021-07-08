@@ -63,13 +63,14 @@ exports.createPost = async (req, res) => {
 exports.getPosts = (req, res) => {
   client
     .query(
-      `SELECT * FROM posts WHERE email='${req.email}', name= '${req.name}';`
+      `SELECT * FROM posts WHERE email='${req.email}';`
     )
     .then(data => {
       const postData = data.rows;
       const newdata = postData.map(post => {
         return {
           postId: post.postid,
+          name: post.name,
           content: post.content,
           image: post.image,
         };
