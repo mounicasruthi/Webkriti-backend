@@ -38,6 +38,8 @@ exports.createPost = async (req, res) => {
         console.log(err, result);
         if (fields.caption == undefined) {
           fields.caption = "";
+        } else {
+          fields.caption = fields.caption;
         }
         client
           .query(
