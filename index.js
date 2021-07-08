@@ -22,7 +22,10 @@ client.connect((err) => {
   if (err) {
     console.log(err);
   }
-  console.log("Connected to database");
+  else {
+    console.log("Connected to database");
+  }
+  
 });
 
 app.get("/", (req, res) => {
