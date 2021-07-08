@@ -2,28 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const client = require("../configs/db");
 
-// const tempData = [
-//   {
-//     name: "Mounica",
-//     email: "mounica@gmail.com",
-//     password: "mounicaweb",
-//   },
-//   {
-//     name: "Arushi",
-//     email: "arushi@gmail.com",
-//     password: "arushiweb",
-//   },
-//   {
-//     name: "Disha",
-//     email: "disha@gmail.com",
-//     password: "dishaweb",
-//   },
-// ];
-
 exports.signup = (req, res) => {
   const { name, email, password } = req.body;
-
-  // const isValid = tempData.findIndex((e) => e.email === email);
 
   client
     .query(`SELECT * FROM users where email = '${email}';`)
@@ -47,7 +27,6 @@ exports.signup = (req, res) => {
             password: hash,
           };
 
-          // tempData.push(user);
           client
             .query(
               `INSERT INTO users (name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}');`
@@ -81,8 +60,6 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   const { email, password } = req.body;
-
-  // const isValid = tempData.findIndex((e) => e.email === email);
 
   client
     .query(`SELECT * FROM users where email = '${email}';`)
