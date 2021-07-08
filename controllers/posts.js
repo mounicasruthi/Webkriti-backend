@@ -62,14 +62,13 @@ exports.createPost = async (req, res) => {
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
   client
-    .query(
-      `SELECT * FROM posts WHERE email='${req.email}', name= '${req.name}';`
-    )
+    .query(`SELECT * FROM posts WHERE email='${req.email}';`)
     .then(data => {
       const postData = data.rows;
       const newdata = postData.map(post => {
         return {
           postId: post.postid,
+          name: post.name,
           content: post.content,
           image: post.image,
         };
@@ -96,6 +95,7 @@ exports.getAllPosts = (req, res) => {
       const newdata = postData.map(post => {
         return {
           postId: post.postid,
+          name: post.name,
           content: post.content,
           image: post.image,
         };
