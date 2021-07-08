@@ -23,6 +23,8 @@ router.delete("/delete/:postId", verifyToken, deletePosts);
 
 router.get("/getallposts", getAllPosts);
 
+router.post("/likes", verifyToken, likesCount);
+
 module.exports = router;
 
 // localhost:8000/posts/create
