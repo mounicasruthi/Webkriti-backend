@@ -20,12 +20,12 @@ exports.createPost = async (req, res) => {
           .query(
             `INSERT INTO posts (email,content,image) VALUES ('${req.email}','${fields.caption}');`
           )
-          .then((data) => {
+          .then(data => {
             res.status(200).json({
               message: "Post created successfully",
             });
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             res.status(500).json({
               message: "Database error",
@@ -36,16 +36,19 @@ exports.createPost = async (req, res) => {
       console.log(fields, file);
       cloudinary.uploader.upload(file.image.path, (err, result) => {
         console.log(err, result);
+        if (fields.caption == undefined) {
+          fields.caption = "";
+        }
         client
           .query(
             `INSERT INTO posts (email,content,image) VALUES ('${req.email}','${fields.caption}', '${result.secure_url}');`
           )
-          .then((data) => {
+          .then(data => {
             res.status(200).json({
               message: "Post created successfully",
             });
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             res.status(500).json({
               message: "Database error",
@@ -60,9 +63,9 @@ exports.createPost = async (req, res) => {
 exports.getPosts = (req, res) => {
   client
     .query(`SELECT * FROM posts WHERE email='${req.email}';`)
-    .then((data) => {
+    .then(data => {
       const postData = data.rows;
-      const newdata = postData.map((post) => {
+      const newdata = postData.map(post => {
         return {
           postId: post.postid,
           content: post.content,
@@ -75,7 +78,7 @@ exports.getPosts = (req, res) => {
         data: newdata,
       });
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         message: "Database error",
       });
@@ -86,9 +89,9 @@ exports.getPosts = (req, res) => {
 exports.getAllPosts = (req, res) => {
   client
     .query(`SELECT * FROM posts;`)
-    .then((data) => {
+    .then(data => {
       const postData = data.rows;
-      const newdata = postData.map((post) => {
+      const newdata = postData.map(post => {
         return {
           postId: post.postid,
           content: post.content,
@@ -101,7 +104,7 @@ exports.getAllPosts = (req, res) => {
         data: newdata,
       });
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         message: "Database error",
       });
@@ -114,7 +117,7 @@ exports.updatePosts = (req, res) => {
   const { content } = req.body;
   client
     .query(`UPDATE posts set content = '${content}' WHERE id='${postId}';`)
-    .then((data) => {
+    .then(data => {
       if (!content) {
         res.status(400).json({
           message: "Please update the caption",
@@ -125,7 +128,7 @@ exports.updatePosts = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res.status(500).json({
         message: "Database error",
@@ -139,12 +142,12 @@ exports.deletePosts = (req, res) => {
   // const { content } = req.body;
   client
     .query(`DELETE FROM  posts WHERE id ='${postId}';`)
-    .then((data) => {
+    .then(data => {
       res.status(200).json({
         message: "Posts Deleted Successfully",
       });
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         message: "Database error",
       });

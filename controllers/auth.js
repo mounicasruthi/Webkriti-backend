@@ -7,7 +7,7 @@ exports.signup = (req, res) => {
 
   client
     .query(`SELECT * FROM users where email = '${email}';`)
-    .then((data) => {
+    .then(data => {
       isValid = data.rows;
 
       if (isValid.length != 0) {
@@ -31,7 +31,7 @@ exports.signup = (req, res) => {
             .query(
               `INSERT INTO users (name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}');`
             )
-            .then((data) => {
+            .then(data => {
               const token = jwt.sign(
                 {
                   email: email,
@@ -43,7 +43,7 @@ exports.signup = (req, res) => {
                 token: token,
               });
             })
-            .catch((err) => {
+            .catch(err => {
               res.status(500).json({
                 error: "Database error occurred",
               });
@@ -51,7 +51,7 @@ exports.signup = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         error: "Database error occurred",
       });
@@ -63,7 +63,7 @@ exports.signin = (req, res) => {
 
   client
     .query(`SELECT * FROM users where email = '${email}';`)
-    .then((data) => {
+    .then(data => {
       userData = data.rows;
 
       if (userData.length == 0) {
@@ -95,7 +95,7 @@ exports.signin = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         error: "Database error occurred",
       });
