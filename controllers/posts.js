@@ -62,9 +62,13 @@ exports.createPost = async (req, res) => {
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
   client
+<<<<<<< HEAD
     .query(
       `SELECT * FROM posts WHERE email='${req.email}';`
     )
+=======
+    .query(`SELECT * FROM posts WHERE email='${req.email}';`)
+>>>>>>> f6ad137f9f24cf946d82bba871bdf5da5f27c96e
     .then(data => {
       const postData = data.rows;
       const newdata = postData.map(post => {
