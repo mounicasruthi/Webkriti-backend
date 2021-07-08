@@ -71,6 +71,7 @@ exports.getPosts = (req, res) => {
           name: post.name,
           content: post.content,
           image: post.image,
+          likes: post.likes,
         };
       });
       console.log(newdata);
@@ -100,7 +101,7 @@ exports.getAllPosts = (req, res) => {
           name: post.name,
           content: post.content,
           image: post.image,
-
+          likes: post.likes,
         };
       });
       console.log(newdata);
