@@ -89,15 +89,19 @@ exports.getPosts = (req, res) => {
 
 //get all posts route
 exports.getAllPosts = (req, res) => {
+  console.log("getting all posts");
   client
     .query(`SELECT * FROM posts;`)
     .then(data => {
+      console.log(data);
       const postData = data.rows;
       const newdata = postData.map(post => {
         return {
           postId: post.postid,
+          name: post.name,
           content: post.content,
           image: post.image,
+
         };
       });
       console.log(newdata);
