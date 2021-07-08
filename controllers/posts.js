@@ -18,7 +18,7 @@ exports.createPost = async (req, res) => {
       } else {
         client
           .query(
-            `INSERT INTO posts (email,name,content) VALUES ('${req.email}','${req.name}','${fields.caption}');`
+            `INSERT INTO posts (email,name,content) VALUES ('${req.email}','${req.name}','${fields.content}');`
           )
           .then(data => {
             res.status(200).json({
@@ -41,7 +41,7 @@ exports.createPost = async (req, res) => {
         }
         client
           .query(
-            `INSERT INTO posts (email,name,content,image) VALUES ('${req.email}','${req.name}','${fields.caption}', '${result.secure_url}');`
+            `INSERT INTO posts (email,name,content,image) VALUES ('${req.email}','${req.name}','${fields.content}', '${result.secure_url}');`
           )
           .then(data => {
             res.status(200).json({
