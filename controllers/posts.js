@@ -59,31 +59,31 @@ exports.createPost = async (req, res) => {
   });
 };
 
-//likes route
-// exports.likesCount = (req, res) => {
-// client
-// .query(`SELECT * FROM posts WHERE email = '${req.email}';`)
-// .then(data => {
-//   const currLikes = data.likes;
-//   const newLikes = currLikes.map(post => {
-//     return {
-//       newLikes = currLikes++,
-//     };
-//   })
-//   .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
-//   .then(data => {
-//     res.status(200).json({
-//       message: "Likes updated successfully",
-//     });
-//   })
-//   .catch(err => {
-//     console.log(err);
-//     res.status(500).json({
-//       message: "Database error",
-//     });
-//     })
-// });
-// }
+// likes route
+exports.likesCount = (req, res) => {
+client
+.query(`SELECT * FROM posts WHERE email = '${req.email}';`)
+.then(data => {
+  const currLikes = data.likes;
+  const newLikes = currLikes.map(post => {
+    return {
+      newLikes = currLikes++,
+    };
+  })
+  .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
+  .then(data => {
+    res.status(200).json({
+      message: "Likes updated successfully",
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      message: "Database error",
+    });
+    })
+});
+}
 
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
