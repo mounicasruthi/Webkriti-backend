@@ -20,12 +20,12 @@ exports.createPost = async (req, res) => {
           .query(
             `INSERT INTO posts (email,name,content) VALUES ('${req.email}','${req.name}','${fields.content}');`
           )
-          .then((data) => {
+          .then(data => {
             res.status(200).json({
               message: "Post created successfully",
             });
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             res.status(500).json({
               message: "Database error",
@@ -43,12 +43,12 @@ exports.createPost = async (req, res) => {
           .query(
             `INSERT INTO posts (email,name,content,image) VALUES ('${req.email}','${req.name}','${fields.content}', '${result.secure_url}');`
           )
-          .then((data) => {
+          .then(data => {
             res.status(200).json({
               message: "Post created successfully",
             });
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             res.status(500).json({
               message: "Database error",
@@ -66,7 +66,7 @@ exports.likesCount = (req, res) => {
     .query(
       `SELECT * FROM likes WHERE postid = '${postId}' AND email = '${req.email}';`
     )
-    .then((data) => {
+    .then(data => {
       if (data.rows.length > 0) {
         res.status(400).json({
           error: "User has already liked the post",
@@ -76,14 +76,14 @@ exports.likesCount = (req, res) => {
           .query(
             `INSERT into likes (email,postid) VALUES ('${req.email}','${postId}'); `
           )
-          .then((data2) => {
+          .then(data2 => {
             // res.status(200).json({
             //   message: "Data inserted successfully",
             // });
 
             client
               .query(`SELECT * FROM posts WHERE id = '${postId}';`)
-              .then((data3) => {
+              .then(data3 => {
                 const currLikes = data3.rows[0].likes;
                 const newLikes = currLikes + 1;
 
@@ -91,32 +91,32 @@ exports.likesCount = (req, res) => {
                   .query(
                     `UPDATE posts set likes = '${newLikes}' WHERE id='${postId}';`
                   )
-                  .then((data4) => {
+                  .then(data4 => {
                     res.status(200).json({
                       message: "Likes updated successfully",
                       newLikes,
                     });
                     // res.send(newLikes);
                   })
-                  .catch((err4) => {
+                  .catch(err4 => {
                     console.log(err);
                     res.status(500).json({
                       message: "Database error",
                     });
                   })
-                  .catch((err3) => {
+                  .catch(err3 => {
                     res.status(500).json({
                       message: "Database error",
                     });
                   });
               })
-              .catch((err2) => {
+              .catch(err2 => {
                 res.status(500).json({
                   message: "Database error",
                 });
               });
           })
-          .catch((err1) => {
+          .catch(err1 => {
             res.status(400).json({
               error: "User has already liked the post",
             });
@@ -129,9 +129,9 @@ exports.likesCount = (req, res) => {
 exports.getPosts = (req, res) => {
   client
     .query(`SELECT * FROM posts WHERE email='${req.email}';`)
-    .then((data) => {
+    .then(data => {
       const postData = data.rows;
-      const newdata = postData.map((post) => {
+      const newdata = postData.map(post => {
         return {
           postId: post.id,
           name: post.name,
@@ -146,7 +146,7 @@ exports.getPosts = (req, res) => {
         data: newdata,
       });
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         message: "Database error",
       });
@@ -158,15 +158,16 @@ exports.getAllPosts = (req, res) => {
   console.log("getting all posts");
   client
     .query(`SELECT * FROM posts;`)
-    .then((data) => {
+    .then(data => {
       console.log(data);
       const postData = data.rows;
-      const newdata = postData.map((post) => {
+      const newdata = postData.map(post => {
         return {
           postId: post.id,
           name: post.name,
           content: post.content,
           image: post.image,
+          likes: post.likes,
         };
       });
       console.log(newdata);
@@ -175,7 +176,7 @@ exports.getAllPosts = (req, res) => {
         data: newdata,
       });
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         message: "Database error",
       });
@@ -184,11 +185,12 @@ exports.getAllPosts = (req, res) => {
 
 //update route
 exports.updatePosts = (req, res) => {
-  const postId = req.postId;
-  const { content } = req.body;
+  // const postId = req.body.postId;
+  const { content , postId } = req.body;
+  console.log(req.body);
   client
     .query(`UPDATE posts set content = '${content}' WHERE id='${postId}';`)
-    .then((data) => {
+    .then(data => {
       if (!content) {
         res.status(400).json({
           message: "Please update the caption",
@@ -199,7 +201,7 @@ exports.updatePosts = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res.status(500).json({
         message: "Database error",
@@ -213,12 +215,12 @@ exports.deletePosts = (req, res) => {
   // const { content } = req.body;
   client
     .query(`DELETE FROM  posts WHERE id ='${postId}';`)
-    .then((data) => {
+    .then(data => {
       res.status(200).json({
         message: "Posts Deleted Successfully",
       });
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).json({
         message: "Database error",
       });
