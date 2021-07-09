@@ -20,12 +20,12 @@ exports.createPost = async (req, res) => {
           .query(
             `INSERT INTO posts (email,name,content) VALUES ('${req.email}','${req.name}','${fields.content}');`
           )
-          .then(data => {
+          .then((data) => {
             res.status(200).json({
               message: "Post created successfully",
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             res.status(500).json({
               message: "Database error",
@@ -43,12 +43,12 @@ exports.createPost = async (req, res) => {
           .query(
             `INSERT INTO posts (email,name,content,image) VALUES ('${req.email}','${req.name}','${fields.content}', '${result.secure_url}');`
           )
-          .then(data => {
+          .then((data) => {
             res.status(200).json({
               message: "Post created successfully",
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             res.status(500).json({
               message: "Database error",
@@ -60,6 +60,28 @@ exports.createPost = async (req, res) => {
 };
 
 // likes route
+<<<<<<< HEAD
+// exports.likesCount = (req, res) => {
+//   client
+//   .query(`SELECT * FROM posts WHERE email = '${req.email}';`)
+//   .then(data => {
+//     const currLikes = data.row[0].likes;
+//     const newLikes = currLikes+1 ;
+//     })
+//     .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
+//     .then(data => {
+//       res.status(200).json({
+//         message: "Likes updated successfully",
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json({
+//         message: "Database error",
+//       });
+//       })
+//   });
+=======
 exports.likesCount = (req, res) => {
 client
 .query(`SELECT * FROM posts WHERE id = '${postId}';`)
@@ -84,14 +106,15 @@ client
     })
 });
 }
+>>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
 
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
   client
     .query(`SELECT * FROM posts WHERE email='${req.email}';`)
-    .then(data => {
+    .then((data) => {
       const postData = data.rows;
-      const newdata = postData.map(post => {
+      const newdata = postData.map((post) => {
         return {
           postId: post.postid,
           name: post.name,
@@ -106,7 +129,7 @@ exports.getPosts = (req, res) => {
         data: newdata,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
         message: "Database error",
       });
@@ -118,16 +141,19 @@ exports.getAllPosts = (req, res) => {
   console.log("getting all posts");
   client
     .query(`SELECT * FROM posts;`)
-    .then(data => {
+    .then((data) => {
       console.log(data);
       const postData = data.rows;
-      const newdata = postData.map(post => {
+      const newdata = postData.map((post) => {
         return {
           postId: post.postid,
           name: post.name,
           content: post.content,
           image: post.image,
+<<<<<<< HEAD
+=======
           likes: post.likes,
+>>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
         };
       });
       console.log(newdata);
@@ -136,7 +162,7 @@ exports.getAllPosts = (req, res) => {
         data: newdata,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
         message: "Database error",
       });
@@ -149,7 +175,7 @@ exports.updatePosts = (req, res) => {
   const { content } = req.body;
   client
     .query(`UPDATE posts set content = '${content}' WHERE id='${postId}';`)
-    .then(data => {
+    .then((data) => {
       if (!content) {
         res.status(400).json({
           message: "Please update the caption",
@@ -160,7 +186,7 @@ exports.updatePosts = (req, res) => {
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({
         message: "Database error",
@@ -174,12 +200,12 @@ exports.deletePosts = (req, res) => {
   // const { content } = req.body;
   client
     .query(`DELETE FROM  posts WHERE id ='${postId}';`)
-    .then(data => {
+    .then((data) => {
       res.status(200).json({
         message: "Posts Deleted Successfully",
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
         message: "Database error",
       });
