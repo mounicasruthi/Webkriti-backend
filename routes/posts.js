@@ -3,13 +3,10 @@ const {
   createPost,
   getPosts,
   updatePosts,
-<<<<<<< HEAD
    likesCount,
-=======
->>>>>>> f0b6f10097fb7089262d831b915c76b6c0004ebb
   deletePosts,
   getAllPosts,
-  likesCount,
+ 
 } = require("../controllers/posts");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const { postIdParam } = require("../middlewares/postsMiddleware");
