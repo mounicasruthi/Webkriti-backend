@@ -59,48 +59,7 @@ exports.createPost = async (req, res) => {
   });
 };
 
-// likes route
-// exports.likesCount = (req, res) => {
-//   const postId = req.postId;
-//   client
-//     .query(`SELECT * FROM likes WHERE postId = '${postId}';`)
-//     .then((data) => {
-//       isValid = data.rows;
-//       if (isValid.length != 0) {
-//         res.status(400).json({
-//           error: "User has already liked the post",
-//         });
-//       } else {
-//         client.query(
-//           `INSERT into likes (email,postId) VALUES ('${req.email}','${postId}'); `)
-//           .then((data2) => {
-//             res.status(200).json({
-//               message: "Data inserted successfully",
-//             });
-//           });
-//           client.query(`SELECT * FROM posts `)
-
-//         // const currLikes = data.rows[0].likes;
-//         // const newLikes = currLikes + 1;
-//         // console.log(newLikes);
-
-//         client
-//           .query(
-//             `UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `
-//           )
-//           .then((data) => {
-//             res.status(200).json({
-//               message: "Likes updated successfully",
-//             });
-//           })
-//           .catch((err) => {
-//             console.log(err);
-//             res.status(500).json({
-//               message: "Database error",
-//             });
-//           });
-// });
-
+//likes route
 exports.likesCount = (req, res) => {
   const postId = req.body.postId;
   client
