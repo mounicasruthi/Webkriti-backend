@@ -20,13 +20,13 @@ router.get("/getposts", verifyToken, getPosts);
 
 router.put("/update/:postId", verifyToken, updatePosts);
 
-// router.get("/likeposts/:postId",verifyToken, likePosts);
+// router.get("/likeposts/:postId", verifyToken, likePosts);
 
 router.delete("/delete/:postId", verifyToken, deletePosts);
 
 router.get("/getallposts", getAllPosts);
 
-// router.post("/likes", verifyToken, likesCount);
+router.post("/likes", verifyToken, likesCount);
 
 module.exports = router;
 
@@ -34,6 +34,6 @@ module.exports = router;
 //localhost:8000/posts/uploadimage
 //localhost:8000/posts/update/:postId
 //localhost:8000/posts/likeposts/:postId
-//localhost:8000/posts/delete/:postId
+//localhost:8000/posts/likes
 //localhost:8000/posts/getposts
 //localhost:8000/posts/getallposts

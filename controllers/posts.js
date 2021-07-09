@@ -60,53 +60,111 @@ exports.createPost = async (req, res) => {
 };
 
 // likes route
-<<<<<<< HEAD
 // exports.likesCount = (req, res) => {
+//   const postId = req.postId;
 //   client
-//   .query(`SELECT * FROM posts WHERE email = '${req.email}';`)
-//   .then(data => {
-//     const currLikes = data.row[0].likes;
-//     const newLikes = currLikes+1 ;
-//     })
-//     .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
-//     .then(data => {
-//       res.status(200).json({
-//         message: "Likes updated successfully",
-//       });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({
-//         message: "Database error",
-//       });
-//       })
-//   });
-=======
+//     .query(`SELECT * FROM likes WHERE postId = '${postId}';`)
+//     .then((data) => {
+//       isValid = data.rows;
+//       if (isValid.length != 0) {
+//         res.status(400).json({
+//           error: "User has already liked the post",
+//         });
+//       } else {
+//         client.query(
+//           `INSERT into likes (email,postId) VALUES ('${req.email}','${postId}'); `)
+//           .then((data2) => {
+//             res.status(200).json({
+//               message: "Data inserted successfully",
+//             });
+//           });
+//           client.query(`SELECT * FROM posts `)
+
+//         // const currLikes = data.rows[0].likes;
+//         // const newLikes = currLikes + 1;
+//         // console.log(newLikes);
+
+//         client
+//           .query(
+//             `UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `
+//           )
+//           .then((data) => {
+//             res.status(200).json({
+//               message: "Likes updated successfully",
+//             });
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//             res.status(500).json({
+//               message: "Database error",
+//             });
+//           });
+// });
+
 exports.likesCount = (req, res) => {
-client
-.query(`SELECT * FROM posts WHERE email = '${req.email}';`)
-.then(data => {
-  const currLikes = data.likes;
-  const newLikes = currLikes.map(post => {
-    return {
-      newLikes = currLikes++,
-    };
-  })
-  .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
-  .then(data => {
-    res.status(200).json({
-      message: "Likes updated successfully",
+  const postId = req.body.postId;
+  client
+    .query(
+      `SELECT * FROM likes WHERE postid = '${postId}' AND email = '${req.email}';`
+    )
+    .then((data) => {
+      if (data.rows.length > 0) {
+        res.status(400).json({
+          error: "User has already liked the post",
+        });
+      } else {
+        client
+          .query(
+            `INSERT into likes (email,postid) VALUES ('${req.email}','${postId}'); `
+          )
+          .then((data2) => {
+            // res.status(200).json({
+            //   message: "Data inserted successfully",
+            // });
+
+            client
+              .query(`SELECT * FROM posts WHERE id = '${postId}';`)
+              .then((data3) => {
+                const currLikes = data3.rows[0].likes;
+                const newLikes = currLikes + 1;
+
+                client
+                  .query(
+                    `UPDATE posts set likes = '${newLikes}' WHERE id='${postId}';`
+                  )
+                  .then((data4) => {
+                    res.status(200).json({
+                      message: "Likes updated successfully",
+                      newLikes,
+                    });
+                    // res.send(newLikes);
+                  })
+                  .catch((err4) => {
+                    console.log(err);
+                    res.status(500).json({
+                      message: "Database error",
+                    });
+                  })
+                  .catch((err3) => {
+                    res.status(500).json({
+                      message: "Database error",
+                    });
+                  });
+              })
+              .catch((err2) => {
+                res.status(500).json({
+                  message: "Database error",
+                });
+              });
+          })
+          .catch((err1) => {
+            res.status(400).json({
+              error: "User has already liked the post",
+            });
+          });
+      }
     });
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({
-      message: "Database error",
-    });
-    })
-});
-}
->>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
+};
 
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
@@ -116,7 +174,7 @@ exports.getPosts = (req, res) => {
       const postData = data.rows;
       const newdata = postData.map((post) => {
         return {
-          postId: post.postid,
+          postId: post.id,
           name: post.name,
           content: post.content,
           image: post.image,
@@ -146,14 +204,10 @@ exports.getAllPosts = (req, res) => {
       const postData = data.rows;
       const newdata = postData.map((post) => {
         return {
-          postId: post.postid,
+          postId: post.id,
           name: post.name,
           content: post.content,
           image: post.image,
-<<<<<<< HEAD
-=======
-          likes: post.likes,
->>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
         };
       });
       console.log(newdata);

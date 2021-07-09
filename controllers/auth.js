@@ -118,19 +118,6 @@ exports.getuser = (req, res) => {
     .then((data) => {
       console.log(data);
       const { name, email, id } = data.rows[0];
-      // const newdata = userData.map((post) => {
-      //   return {
-      //     postId: post.postid,
-      //     name: post.name,
-      //     content: post.content,
-      //     image: post.image,
-      //   };
-      // });
-      // console.log(newdata);
-      // res.status(200).json({
-      //   message: "Data Displayed Successfully",
-      //   data: newdata,
-      // });
       res.send({
         name,
         email,
