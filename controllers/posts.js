@@ -226,7 +226,7 @@ exports.getAllPosts = (req, res) => {
 
 //update route
 exports.updatePosts = (req, res) => {
-  const postId = req.postId;
+  const postId = req.body.postId;
   const { content } = req.body;
   client
     .query(`UPDATE posts set content = '${content}' WHERE id='${postId}';`)
