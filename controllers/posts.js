@@ -18,7 +18,7 @@ exports.createPost = async (req, res) => {
       } else {
         client
           .query(
-            `INSERT INTO posts (email,name,content) VALUES ('${req.email}','${req.name}','${fields.caption}');`
+            `INSERT INTO posts (email,name,content) VALUES ('${req.email}','${req.name}','${fields.content}');`
           )
           .then((data) => {
             res.status(200).json({
@@ -41,7 +41,7 @@ exports.createPost = async (req, res) => {
         }
         client
           .query(
-            `INSERT INTO posts (email,name,content,image) VALUES ('${req.email}','${req.name}','${fields.caption}', '${result.secure_url}');`
+            `INSERT INTO posts (email,name,content,image) VALUES ('${req.email}','${req.name}','${fields.content}', '${result.secure_url}');`
           )
           .then((data) => {
             res.status(200).json({
@@ -60,6 +60,7 @@ exports.createPost = async (req, res) => {
 };
 
 // likes route
+<<<<<<< HEAD
 // exports.likesCount = (req, res) => {
 //   client
 //   .query(`SELECT * FROM posts WHERE email = '${req.email}';`)
@@ -80,6 +81,32 @@ exports.createPost = async (req, res) => {
 //       });
 //       })
 //   });
+=======
+exports.likesCount = (req, res) => {
+client
+.query(`SELECT * FROM posts WHERE email = '${req.email}';`)
+.then(data => {
+  const currLikes = data.likes;
+  const newLikes = currLikes.map(post => {
+    return {
+      newLikes = currLikes++,
+    };
+  })
+  .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
+  .then(data => {
+    res.status(200).json({
+      message: "Likes updated successfully",
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      message: "Database error",
+    });
+    })
+});
+}
+>>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
 
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
@@ -93,6 +120,7 @@ exports.getPosts = (req, res) => {
           name: post.name,
           content: post.content,
           image: post.image,
+          likes: post.likes,
         };
       });
       console.log(newdata);
@@ -122,6 +150,10 @@ exports.getAllPosts = (req, res) => {
           name: post.name,
           content: post.content,
           image: post.image,
+<<<<<<< HEAD
+=======
+          likes: post.likes,
+>>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
         };
       });
       console.log(newdata);

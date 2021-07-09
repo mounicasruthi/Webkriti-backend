@@ -6,6 +6,7 @@ const {
   // likePosts,
   deletePosts,
   getAllPosts,
+  likesCount,
 } = require("../controllers/posts");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const { postIdParam } = require("../middlewares/postsMiddleware");
@@ -24,6 +25,8 @@ router.put("/update/:postId", verifyToken, updatePosts);
 router.delete("/delete/:postId", verifyToken, deletePosts);
 
 router.get("/getallposts", getAllPosts);
+
+// router.post("/likes", verifyToken, likesCount);
 
 module.exports = router;
 
