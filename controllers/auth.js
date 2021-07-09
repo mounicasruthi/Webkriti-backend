@@ -148,4 +148,3 @@ exports.getuser = (req, res) => {
       });
     });
 };
-
