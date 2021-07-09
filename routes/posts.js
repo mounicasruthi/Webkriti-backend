@@ -1,9 +1,9 @@
 const express = require("express");
 const {
   createPost,
-  uploadImage,
   getPosts,
   updatePosts,
+  // likePosts,
   deletePosts,
   getAllPosts,
 } = require("../controllers/posts");
@@ -19,15 +19,18 @@ router.get("/getposts", verifyToken, getPosts);
 
 router.put("/update/:postId", verifyToken, updatePosts);
 
+// router.get("/likeposts/:postId",verifyToken, likePosts);
+
 router.delete("/delete/:postId", verifyToken, deletePosts);
 
 router.get("/getallposts", getAllPosts);
 
 module.exports = router;
 
-// localhost:8000/posts/create
+//localhost:8000/posts/create
 //localhost:8000/posts/uploadimage
-// localhost:8000/posts/update/:postId
-// localhost:8000/posts/delete/:postId
-// localhost:8000/posts/getposts
-// localhost:8000/posts/getallposts
+//localhost:8000/posts/update/:postId
+//localhost:8000/posts/likeposts/:postId
+//localhost:8000/posts/delete/:postId
+//localhost:8000/posts/getposts
+//localhost:8000/posts/getallposts
