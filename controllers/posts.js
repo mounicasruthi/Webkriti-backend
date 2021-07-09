@@ -60,7 +60,6 @@ exports.createPost = async (req, res) => {
 };
 
 // likes route
-<<<<<<< HEAD
 // exports.likesCount = (req, res) => {
 //   client
 //   .query(`SELECT * FROM posts WHERE email = '${req.email}';`)
@@ -81,32 +80,6 @@ exports.createPost = async (req, res) => {
 //       });
 //       })
 //   });
-=======
-exports.likesCount = (req, res) => {
-client
-.query(`SELECT * FROM posts WHERE id = '${postId}';`)
-.then(data => {
-  const currLikes = data.likes;
-  const newLikes = currLikes.map(post => {
-    return {
-      newLikes = currLikes++,
-    };
-  })
-  .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
-  .then(data => {
-    res.status(200).json({
-      message: "Likes updated successfully",
-    });
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({
-      message: "Database error",
-    });
-    })
-});
-}
->>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
 
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
@@ -116,7 +89,7 @@ exports.getPosts = (req, res) => {
       const postData = data.rows;
       const newdata = postData.map((post) => {
         return {
-          postId: post.postid,
+          postId: post.id,
           name: post.name,
           content: post.content,
           image: post.image,
@@ -146,14 +119,10 @@ exports.getAllPosts = (req, res) => {
       const postData = data.rows;
       const newdata = postData.map((post) => {
         return {
-          postId: post.postid,
+          postId: post.id,
           name: post.name,
           content: post.content,
           image: post.image,
-<<<<<<< HEAD
-=======
-          likes: post.likes,
->>>>>>> 6f26c4e475a7dd17a905d75ca01af94b390e2c4a
         };
       });
       console.log(newdata);
@@ -171,8 +140,9 @@ exports.getAllPosts = (req, res) => {
 
 //update route
 exports.updatePosts = (req, res) => {
-  const postId = req.postId;
-  const { content } = req.body;
+  // const postId = req.body.postId;
+  const { content , postId } = req.body;
+  console.log(req.body);
   client
     .query(`UPDATE posts set content = '${content}' WHERE id='${postId}';`)
     .then((data) => {
