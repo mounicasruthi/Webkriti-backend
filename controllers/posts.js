@@ -62,7 +62,7 @@ exports.createPost = async (req, res) => {
 // likes route
 exports.likesCount = (req, res) => {
 client
-.query(`SELECT * FROM posts WHERE email = '${req.email}';`)
+.query(`SELECT * FROM posts WHERE id = '${postId}';`)
 .then(data => {
   const currLikes = data.likes;
   const newLikes = currLikes.map(post => {
