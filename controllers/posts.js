@@ -63,26 +63,6 @@ exports.createPost = async (req, res) => {
 // exports.likesCount = (req, res) => {
 //   const postId = req.postId;
 //   client
-<<<<<<< HEAD
-//   .query(`SELECT * FROM posts WHERE email = '${req.email}';`)
-//   .then(data => {
-//     const currLikes = data.row[0].likes;
-//     const newLikes = currLikes+1 ;
-//     })
-//     .query(`UPDATE posts set likes = '${newLikes}' WHERE id='${postId}'; `)
-//     .then(data => {
-//       res.status(200).json({
-//         message: "Likes updated successfully",
-//       });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({
-//         message: "Database error",
-//       });
-//       })
-//   });
-=======
 //     .query(`SELECT * FROM likes WHERE postId = '${postId}';`)
 //     .then((data) => {
 //       isValid = data.rows;
@@ -185,7 +165,6 @@ exports.likesCount = (req, res) => {
       }
     });
 };
->>>>>>> 185334ad08ecaa0b2beefcfe0586dd44046fb149
 
 //get posts of a specific user route
 exports.getPosts = (req, res) => {
@@ -229,10 +208,7 @@ exports.getAllPosts = (req, res) => {
           name: post.name,
           content: post.content,
           image: post.image,
-<<<<<<< HEAD
-=======
           likes: post.likes,
->>>>>>> 185334ad08ecaa0b2beefcfe0586dd44046fb149
         };
       });
       console.log(newdata);
@@ -250,14 +226,9 @@ exports.getAllPosts = (req, res) => {
 
 //update route
 exports.updatePosts = (req, res) => {
-<<<<<<< HEAD
   // const postId = req.body.postId;
   const { content , postId } = req.body;
   console.log(req.body);
-=======
-  const postId = req.body.postId;
-  const { content } = req.body;
->>>>>>> 185334ad08ecaa0b2beefcfe0586dd44046fb149
   client
     .query(`UPDATE posts set content = '${content}' WHERE id='${postId}';`)
     .then(data => {

@@ -25,10 +25,7 @@ router.delete("/delete", verifyToken, deletePosts);
 
 router.get("/getallposts", getAllPosts);
 
-<<<<<<< HEAD
-=======
 router.post("/likes", verifyToken, likesCount);
->>>>>>> 185334ad08ecaa0b2beefcfe0586dd44046fb149
 
 module.exports = router;
 
