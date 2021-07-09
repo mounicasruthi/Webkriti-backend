@@ -3,7 +3,7 @@ const {
   createPost,
   getPosts,
   updatePosts,
-  // likePosts,
+   likesCount,
   deletePosts,
   getAllPosts,
 } = require("../controllers/posts");

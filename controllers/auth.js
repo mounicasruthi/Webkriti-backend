@@ -31,6 +31,7 @@ exports.signup = (req, res) => {
             email,
             password: hash,
           };
+          console.log(user);
 
           //inserting name, email and password(hashed) in database
           client
