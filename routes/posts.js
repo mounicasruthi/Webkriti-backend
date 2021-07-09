@@ -3,9 +3,9 @@ const {
   createPost,
   getPosts,
   updatePosts,
-  // likePosts,
   deletePosts,
   getAllPosts,
+  likesCount,
 } = require("../controllers/posts");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const { postIdParam } = require("../middlewares/postsMiddleware");
@@ -17,9 +17,7 @@ router.post("/create", verifyToken, createPost);
 
 router.get("/getposts", verifyToken, getPosts);
 
-router.put("/update", verifyToken, updatePosts);
-
-// router.get("/likeposts/:postId", verifyToken, likePosts);
+router.put("/update/:postId", verifyToken, updatePosts);
 
 router.delete("/delete", verifyToken, deletePosts);
 
