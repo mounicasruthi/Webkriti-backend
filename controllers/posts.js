@@ -250,7 +250,7 @@ exports.updatePosts = (req, res) => {
 
 //delete route
 exports.deletePosts = (req, res) => {
-  const postId = req.postId;
+  const postId = req.body.postId;
   // const { content } = req.body;
   client
     .query(`DELETE FROM  posts WHERE id ='${postId}';`)

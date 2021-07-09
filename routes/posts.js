@@ -22,7 +22,7 @@ router.put("/update/:postId", verifyToken, updatePosts);
 
 // router.get("/likeposts/:postId", verifyToken, likePosts);
 
-router.delete("/delete/:postId", verifyToken, deletePosts);
+router.delete("/delete", verifyToken, deletePosts);
 
 router.get("/getallposts", getAllPosts);
 
